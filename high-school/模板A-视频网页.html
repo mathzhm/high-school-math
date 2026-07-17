@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高中数学 · 集合专题复习</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #eaf2ff 0%, #f5f9ff 100%);
+    color: #333; line-height: 1.7; padding: 20px;
+  }
+  .container { max-width: 1300px; margin: 0 auto; }
+
+  .header {
+    text-align: center;
+    background: linear-gradient(135deg, #7b9cf0, #a6bef5);
+    color: #fff; padding: 26px 20px; border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(123,156,240,0.3); margin-bottom: 26px;
+  }
+  .header h1 { font-size: 26px; margin-bottom: 6px; }
+  .header p { font-size: 14px; opacity: 0.95; }
+
+  .lessons { display: flex; gap: 20px; align-items: stretch; }
+  .lesson {
+    flex: 1; background: #fff; border-radius: 18px; padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    display: flex; flex-direction: column;
+  }
+  .lesson-title {
+    display: flex; align-items: center;
+    font-size: 18px; color: #5a7fd6; font-weight: bold; margin-bottom: 14px;
+  }
+  .lesson-title .num {
+    background: #7b9cf0; color: #fff;
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-right: 10px; font-size: 16px; flex-shrink: 0;
+  }
+
+  video { width: 100%; border-radius: 12px; margin-bottom: 6px; background:#000; }
+  .media-note { font-size: 12px; color: #999; margin-bottom: 14px; }
+
+  .quiz-title {
+    font-size: 15px; color: #e08a3c; font-weight: bold;
+    margin: 6px 0 10px; padding-left: 8px; border-left: 4px solid #f4b860;
+  }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .tab-btn {
+    flex: 1; border: none; padding: 7px 0; border-radius: 20px;
+    cursor: pointer; font-size: 13px; font-weight: bold;
+    background: #eef2fb; color: #7b8bad; transition: all 0.2s;
+  }
+  .tab-btn.easy.active   { background: #6ac48a; color:#fff; }
+  .tab-btn.mid.active    { background: #f4b860; color:#fff; }
+  .tab-btn.hard.active   { background: #ec7a7a; color:#fff; }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .question {
+    background: #f8faff; border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 10px; font-size: 14px;
+  }
+  .question p { margin-bottom: 5px; }
+  .answer {
+    display: none; background: #eafaf0; border-left: 4px solid #6ac48a;
+    padding: 9px 12px; border-radius: 6px;
+    margin-top: 7px; color: #2f7d4f; font-size: 14px;
+  }
+  .toggle-btn {
+    background: #7b9cf0; color: #fff; border: none;
+    padding: 5px 14px; border-radius: 20px;
+    cursor: pointer; font-size: 12px; margin-top: 4px;
+  }
+  .toggle-btn:hover { background: #5a7fd6; }
+
+  .footer { text-align: center; color: #999; font-size: 13px; padding: 20px; }
+
+  .mascot {
+    position: fixed; right: 12px; bottom: 12px;
+    width: 110px; z-index: 100; transition: transform 0.3s;
+  }
+  .mascot img { width: 100%; border-radius: 12px; }
+  .mascot:hover { transform: scale(1.05) rotate(-3deg); }
+  .mascot .bubble {
+    position: absolute; top: -28px; left: -40px;
+    background: #fff; border: 2px solid #7b9cf0;
+    color: #5a7fd6; font-size: 11px; font-weight: bold;
+    padding: 5px 9px; border-radius: 12px; white-space: nowrap;
+  }
+
+  @media (max-width: 900px) { .lessons { flex-direction: column; } }
+
+  /* 进阶拓展卡片 */
+  .advanced {
+    background: linear-gradient(135deg, #fff4e0, #fff);
+    border: 2px dashed #f4b860; border-radius: 18px;
+    padding: 24px 28px; margin-top: 6px;
+    box-shadow: 0 4px 15px rgba(244,184,96,0.15); position: relative;
+  }
+  .advanced .badge {
+    position: absolute; top: -14px; left: 24px;
+    background: #f4a03c; color: #fff; font-size: 13px; font-weight: bold;
+    padding: 4px 14px; border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(244,160,60,0.4);
+  }
+  .advanced h2 { color: #d17f22; font-size: 20px; margin-bottom: 14px; }
+  .advanced p { margin-bottom: 10px; font-size: 15px; }
+  .advanced .box {
+    background: #fff; border-left: 4px solid #f4b860; border-radius: 8px;
+    padding: 12px 16px; margin: 12px 0; font-size: 15px;
+  }
+  .advanced .key { color: #d17f22; font-weight: bold; }
+  .advanced .metaphor {
+    background: #eef6ff; border-radius: 8px; padding: 12px 16px;
+    font-size: 14px; color: #4a6fa5; margin: 12px 0;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>🐰 高中数学 · 集合专题复习</h1>
+    <p>看视频 · 分难度练习 · 打牢基础，和酷酷兔一起加油！</p>
+  </div>
+
+  <div class="lessons">
+
+    <!-- ========== 第一集 ========== -->
+    <div class="lesson">
+      <div class="lesson-title"><span class="num">1</span>集合、元素及其表示方法</div>
+      <video controls><source src="集合表示法.mp4" type="video/mp4">你的浏览器不支持视频播放。</video>
+      <div class="media-note">📺 时长约3分钟</div>
+
+      <div class="quiz-title">📝 课后练习</div>
+      <div class="tabs">
+        <button class="tab-btn easy active" onclick="switchTab(this,'l1-easy')">简单</button>
+        <button class="tab-btn mid"  onclick="switchTab(this,'l1-mid')">中等</button>
+        <button class="tab-btn hard" onclick="switchTab(this,'l1-hard')">困难</button>
+      </div>
+
+      <div class="tab-content active" id="l1-easy">
+        <div class="question"><p><b>1.</b> 用 ∈ 或 ∉ 填空：A = {1,2,3,4}。3 __ A；5 __ A。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">3 ∈ A；5 ∉ A。</div></div>
+        <div class="question"><p><b>2.</b> 用列举法表示：小于10的正偶数。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">{2, 4, 6, 8}</div></div>
+        <div class="question"><p><b>3.</b> 下列哪个符号表示实数集？（N / Z / R）</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">R 表示实数集。</div></div>
+      </div>
+
+      <div class="tab-content" id="l1-mid">
+        <div class="question"><p><b>1.</b> 用描述法表示：所有大于3的实数。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">{x | x &gt; 3, x ∈ R}</div></div>
+        <div class="question"><p><b>2.</b> 把 {x | x² = 4, x ∈ R} 改用列举法表示。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">{−2, 2}</div></div>
+        <div class="question"><p><b>3.</b> 判断集合 {x | x 是最小的正整数} 的元素是什么？</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">元素只有 1，即集合为 {1}。</div></div>
+      </div>
+
+      <div class="tab-content" id="l1-hard">
+        <div class="question"><p><b>1.</b> 若集合 {1, a, a²} 中的元素满足互异性，求实数 a 不能取的值。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">需 a≠1、a²≠1、a²≠a，故 a 不能取 0、1、−1。</div></div>
+        <div class="question"><p><b>2.</b> 用描述法表示：坐标平面内第一象限内的点组成的集合。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">{(x, y) | x &gt; 0 且 y &gt; 0}</div></div>
+        <div class="question"><p><b>3.</b> 已知 3 ∈ {1, m, m²−m+1}，求实数 m 的值。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">
+            分两种情况讨论：<br>
+            ① m = 3：集合为 {1, 3, 7}，元素互异，成立。<br>
+            ② m²−m+1 = 3，即 m²−m−2 = 0，解得 m = 2 或 m = −1。<br>
+            　　m = 2：集合为 {1, 2, 3}，互异，成立；<br>
+            　　m = −1：集合为 {1, −1, 3}，互异，成立。<br>
+            <b>所以 m = 3 或 m = 2 或 m = −1。</b>
+          </div></div>
+      </div>
+    </div>
+
+    <!-- ========== 第二集 ========== -->
+    <div class="lesson">
+      <div class="lesson-title"><span class="num">2</span>集合的基本关系</div>
+      <video controls><source src="集合基本关系.mp4" type="video/mp4">你的浏览器不支持视频播放。</video>
+      <div class="media-note">📺 时长约3分钟</div>
+
+      <div class="quiz-title">📝 课后练习</div>
+      <div class="tabs">
+        <button class="tab-btn easy active" onclick="switchTab(this,'l2-easy')">简单</button>
+        <button class="tab-btn mid"  onclick="switchTab(this,'l2-mid')">中等</button>
+        <button class="tab-btn hard" onclick="switchTab(this,'l2-hard')">困难</button>
+      </div>
+
+      <div class="tab-content active" id="l2-easy">
+        <div class="question"><p><b>1.</b> 判断：A={1,2}，B={1,2,3}，A ⊆ B 对吗？</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">对。A 的每个元素都在 B 中。</div></div>
+        <div class="question"><p><b>2.</b> 空集用什么符号表示？</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">∅</div></div>
+        <div class="question"><p><b>3.</b> 填空：空集是任何集合的____。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">子集。</div></div>
+      </div>
+
+      <div class="tab-content" id="l2-mid">
+        <div class="question"><p><b>1.</b> A={a,b,c} 有几个子集、真子集、非空真子集？</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">子集 8 个；真子集 7 个；非空真子集 6 个。</div></div>
+        <div class="question"><p><b>2.</b> 写出集合 {1, 2} 的所有子集。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">∅、{1}、{2}、{1,2}，共4个。</div></div>
+        <div class="question"><p><b>3.</b> 判断 A={x|x²=1} 与 B={−1,1} 是否相等。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">相等。A={−1,1}=B。</div></div>
+      </div>
+
+      <div class="tab-content" id="l2-hard">
+        <div class="question"><p><b>1.</b> 若 {1,2} ⊆ A ⊆ {1,2,3,4}，求满足条件的集合 A 的个数。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">A 必含1、2，其余从{3,4}中任选，共 2²=4 个。</div></div>
+        <div class="question"><p><b>2.</b> 已知 A={x|x&lt;a}，B={x|x&lt;3}，若 A ⊆ B，求 a 的取值范围。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">a ≤ 3。</div></div>
+        <div class="question"><p><b>3.</b> 集合 A={1,2,3}，则 A 的所有真子集共有多少个？请写出个数并说明。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">2³−1=7 个（所有子集8个，去掉它本身）。</div></div>
+      </div>
+    </div>
+
+    <!-- ========== 第三集 ========== -->
+    <div class="lesson">
+      <div class="lesson-title"><span class="num">3</span>集合的基本运算</div>
+      <video controls><source src="集合基本运算.mp4" type="video/mp4">你的浏览器不支持视频播放。</video>
+      <div class="media-note">📺 时长约3分钟</div>
+
+      <div class="quiz-title">📝 课后练习</div>
+      <div class="tabs">
+        <button class="tab-btn easy active" onclick="switchTab(this,'l3-easy')">简单</button>
+        <button class="tab-btn mid"  onclick="switchTab(this,'l3-mid')">中等</button>
+        <button class="tab-btn hard" onclick="switchTab(this,'l3-hard')">困难</button>
+      </div>
+
+      <div class="tab-content active" id="l3-easy">
+        <div class="question"><p><b>1.</b> A={1,2,3}，B={2,3,4}，求 A∩B。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">{2, 3}</div></div>
+        <div class="question"><p><b>2.</b> A={1,2}，B={3,4}，求 A∪B。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">{1, 2, 3, 4}</div></div>
+        <div class="question"><p><b>3.</b> U={1,2,3,4,5}，A={1,2}，求 ∁ᵤA。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">{3, 4, 5}</div></div>
+      </div>
+
+      <div class="tab-content" id="l3-mid">
+        <div class="question"><p><b>1.</b> U={1,2,3,4,5,6}，A={2,4,6}，求 ∁ᵤA。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">{1, 3, 5}</div></div>
+        <div class="question"><p><b>2.</b> A={1,2,3}，B={3,4,5}，求 A∩B 和 A∪B。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">A∩B={3}；A∪B={1,2,3,4,5}。</div></div>
+        <div class="question"><p><b>3.</b> U={1~6的自然数}，A={1,2,3}，B={3,4,5}，求 ∁ᵤ(A∪B)。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">A∪B={1,2,3,4,5}，∁ᵤ(A∪B)={6}。</div></div>
+      </div>
+
+      <div class="tab-content" id="l3-hard">
+        <div class="question"><p><b>1.</b> U={1,2,3,4,5,6}，A={1,2,3}，B={2,3,4}，求 (∁ᵤA)∩B。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">∁ᵤA={4,5,6}，(∁ᵤA)∩B={4}。</div></div>
+        <div class="question"><p><b>2.</b> A={x|x&lt;2}，B={x|x&gt;−1}，求 A∩B（用区间或描述法表示）。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">A∩B={x | −1 &lt; x &lt; 2}。</div></div>
+        <div class="question"><p><b>3.</b> 已知 A={1,2,3,m}，B={2,3}，且 A∩B=B，A∪B=A，求 m 的可能取值。</p>
+          <button class="toggle-btn" onclick="toggle(this)">显示答案</button>
+          <div class="answer">A∩B=B 说明 B⊆A（已满足）；条件对 m 无额外限制，只需保证 A 元素互异，故 m≠1、2、3，m 可为除1、2、3外的任意数。</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== 进阶拓展卡片 ========== -->
+  <div class="advanced">
+    <span class="badge">🚀 进阶拓展</span>
+    <h2>∅ 和 {∅} 一样吗？</h2>
+
+    <p>很多同学会把 <span class="key">∅</span> 和 <span class="key">{∅}</span> 弄混，其实它们完全不同——</p>
+
+    <div class="box">
+      <p><span class="key">∅（空集）</span>：不含任何元素的集合，里面<b>什么都没有</b>。</p>
+      <p><span class="key">{∅}</span>：这是一个集合，它里面<b>有一个元素</b>，这个元素恰好是空集 ∅。所以 {∅} <b>不是</b>空集。</p>
+    </div>
+
+    <div class="metaphor">
+      🎁 <b>打个比方：</b>∅ 就像一个<b>空盒子</b>，里面什么都没有；<br>
+      而 {∅} 是一个<b>大盒子，里面装着一个空盒子</b>——大盒子里是有东西的，所以它不空。
+    </div>
+
+    <p>由此可以得到两个正确的关系式：</p>
+    <div class="box">
+      <p>① <span class="key">∅ ∈ {∅}</span>：空集是 {∅} 的一个<b>元素</b>（用"属于"∈）。</p>
+      <p>② <span class="key">∅ ⊆ {∅}</span>：空集是 {∅} 的<b>子集</b>（用"包含"⊆，因为空集是任何集合的子集）。</p>
+    </div>
+
+    <p style="font-size:13px;color:#999;margin-top:14px;">💡 小提示：这个知识点偏思辨，高考一般不深挖，作为拓展理解即可。关键是记住——<b>{∅} 里面装了东西，它不是空集。</b></p>
+  </div>
+
+  <div class="footer">口诀：交集看"且"，并集看"或"，补集看"不属于"。多做题、多画韦恩图！</div>
+
+</div>
+
+<div class="mascot">
+  <div class="bubble">冲鸭！一起嗨翻天！</div>
+  <img src="兔子.png" alt="活力酷酷兔">
+</div>
+
+<script>
+  function toggle(btn) {
+    var ans = btn.nextElementSibling;
+    if (ans.style.display === "block") {
+      ans.style.display = "none";
+      btn.textContent = "显示答案";
+    } else {
+      ans.style.display = "block";
+      btn.textContent = "隐藏答案";
+    }
+  }
+  function switchTab(btn, id) {
+    var lesson = btn.closest('.lesson');
+    lesson.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    lesson.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
+</script>
+</body>
+</html>
