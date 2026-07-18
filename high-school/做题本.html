@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高中数学 · 做题本</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+    background:linear-gradient(135deg,#eaf2ff,#f5f9ff); color:#333; line-height:1.7; padding:16px; }
+  .container { max-width:1000px; margin:0 auto; }
+  .header { text-align:center; background:linear-gradient(135deg,#7b9cf0,#a6bef5);
+    color:#fff; padding:22px; border-radius:20px; margin-bottom:18px; box-shadow:0 6px 20px rgba(123,156,240,.3); }
+  .header h1 { font-size:24px; margin-bottom:4px; }
+  .header p { font-size:13px; opacity:.95; }
+  .main-tabs { display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+  .main-tab { padding:10px 22px; border:none; border-radius:24px; cursor:pointer;
+    font-size:15px; font-weight:bold; background:#fff; color:#7b8bad; box-shadow:0 2px 8px rgba(0,0,0,.05); transition:all .2s; }
+  .main-tab.active { background:#7b9cf0; color:#fff; }
+  .panel { display:none; } .panel.active { display:block; }
+  .card { background:#fff; border-radius:18px; padding:22px; margin-bottom:16px; box-shadow:0 4px 15px rgba(0,0,0,.06); }
+  .card h2 { color:#5a7fd6; font-size:19px; margin-bottom:6px; }
+  .card .desc { font-size:13px; color:#999; margin-bottom:14px; }
+  .diff-tabs { display:flex; gap:6px; margin-bottom:14px; }
+  .diff-tab { flex:1; border:none; padding:7px 0; border-radius:20px; cursor:pointer; font-size:13px; font-weight:bold; background:#eef2fb; color:#7b8bad; transition:all .2s; }
+  .diff-tab.easy.active { background:#6ac48a; color:#fff; }
+  .diff-tab.mid.active  { background:#f4b860; color:#fff; }
+  .diff-tab.hard.active { background:#ec7a7a; color:#fff; }
+  .diff-content { display:none; } .diff-content.active { display:block; }
+  .q { background:#f8faff; border-radius:12px; padding:16px; margin-bottom:14px; }
+  .q .stem { font-weight:bold; margin-bottom:10px; }
+  .opt { display:block; width:100%; text-align:left; background:#fff; border:1.5px solid #e0e7f5; border-radius:10px; padding:9px 14px; margin-bottom:8px; cursor:pointer; font-size:14px; transition:all .15s; }
+  .opt:hover { border-color:#7b9cf0; }
+  .opt.correct { background:#eafaf0; border-color:#6ac48a; color:#2f7d4f; font-weight:bold; }
+  .opt.wrong   { background:#fdeaea; border-color:#ec7a7a; color:#c0392b; font-weight:bold; }
+  .opt:disabled { cursor:default; }
+  .feedback { font-size:13px; margin-top:6px; font-weight:bold; }
+  .feedback.ok { color:#2f7d4f; } .feedback.no { color:#c0392b; }
+  .go-wrong { text-align:center; margin:10px 0 4px; }
+  .go-wrong a { color:#ec7a7a; font-weight:bold; text-decoration:none; font-size:13px; }
+  .footer { text-align:center; color:#999; font-size:13px; padding:16px; }
+  .mascot { position:fixed; right:12px; bottom:12px; width:100px; z-index:100; }
+  .mascot img { width:100%; border-radius:12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🐰 高中数学 · 做题本</h1>
+    <p>选章节 · 做选择题 · 自动判分 · 答错自动进错题本</p>
+  </div>
+  <div class="go-wrong"><a href="错题本.html">📕 去错题本看看做错的题 →</a></div>
+  <div class="main-tabs">
+    <button class="main-tab active" onclick="showPanel('p-jihe',this)">① 集合</button>
+    <button class="main-tab" onclick="showPanel('p-luoji',this)">② 常用逻辑用语</button>
+  </div>
+
+  <!-- 章节一：集合 -->
+  <div class="panel active" id="p-jihe">
+    <div class="card">
+      <h2>集合</h2>
+      <div class="desc">涵盖：表示方法、基本关系、基本运算。点选项即可自动判分，答错自动进错题本。</div>
+      <div class="diff-tabs">
+        <button class="diff-tab easy active" onclick="switchDiff(this,'j-easy')">简单</button>
+        <button class="diff-tab mid"  onclick="switchDiff(this,'j-mid')">中等</button>
+        <button class="diff-tab hard" onclick="switchDiff(this,'j-hard')">困难</button>
+      </div>
+      <div class="diff-content active" id="j-easy"></div>
+      <div class="diff-content" id="j-mid"></div>
+      <div class="diff-content" id="j-hard"></div>
+    </div>
+  </div>
+
+  <!-- 章节二：常用逻辑用语 -->
+  <div class="panel" id="p-luoji">
+    <div class="card">
+      <h2>常用逻辑用语</h2>
+      <div class="desc">涵盖：命题与量词、命题的否定、充分与必要条件。点选项即可自动判分，答错自动进错题本。</div>
+      <div class="diff-tabs">
+        <button class="diff-tab easy active" onclick="switchDiff(this,'l-easy')">简单</button>
+        <button class="diff-tab mid"  onclick="switchDiff(this,'l-mid')">中等</button>
+        <button class="diff-tab hard" onclick="switchDiff(this,'l-hard')">困难</button>
+      </div>
+      <div class="diff-content active" id="l-easy"></div>
+      <div class="diff-content" id="l-mid"></div>
+      <div class="diff-content" id="l-hard"></div>
+    </div>
+  </div>
+
+  <div class="footer">口诀：交集看"且"，并集看"或"，补集看"不属于"。答错别灰心，进错题本再战一次！</div>
+</div>
+<div class="mascot"><img src="兔子.png" alt="酷酷兔"></div>
+
+<script>
+const QUESTIONS = {
+  "集合": {
+    easy: [
+      { stem:"设 A={1,2,3,4}，下列正确的是？", options:["5∈A","3∈A","0∈A","6∈A"], answer:1, topic:"元素与集合的关系" },
+      { stem:"表示实数集的符号是？", options:["N","Z","Q","R"], answer:3, topic:"常用数集符号" },
+      { stem:"小于10的正偶数组成的集合是？", options:["{2,4,6,8}","{0,2,4,6,8}","{2,4,6,8,10}","{1,2,3,4}"], answer:0, topic:"列举法" }
+    ],
+    mid: [
+      { stem:"集合 {x | x²=4, x∈R} 用列举法表示为？", options:["{2}","{-2,2}","{4}","{-4,4}"], answer:1, topic:"描述法与列举法转换" },
+      { stem:"集合 A={a,b,c} 的子集个数是？", options:["6","7","8","9"], answer:2, topic:"子集个数公式" },
+      { stem:"下列与集合 {-1,1} 相等的是？", options:["{x|x²=1}","{x|x=1}","{x|x>0}","{x|x²=-1}"], answer:0, topic:"集合相等" }
+    ],
+    hard: [
+      { stem:"若 3∈{1, m, m²−m+1}，m 的值不可能是？", options:["3","2","-1","0"], answer:3, topic:"含参数集合(互异性)" },
+      { stem:"若 {1,2}⊆A⊆{1,2,3,4}，满足条件的 A 有几个？", options:["2","3","4","8"], answer:2, topic:"子集计数" },
+      { stem:"全集 U={1,2,3,4,5,6}，A={1,2,3}，B={2,3,4}，(∁ᵤA)∩B=？", options:["{4}","{4,5}","{5,6}","{4,5,6}"], answer:0, topic:"补集与交集综合" }
+    ]
+  },
+  "常用逻辑用语": {
+    easy: [
+      { stem:"下列是命题的是？", options:["请安静","x>3吗","5是质数","多美啊"], answer:2, topic:"命题的概念" },
+      { stem:"符号 ∀ 表示？", options:["存在","任意","属于","包含"], answer:1, topic:"全称量词与存在量词" },
+      { stem:"“x>0”的否定是？", options:["x<0","x≤0","x≥0","x≠0"], answer:1, topic:"命题的否定" }
+    ],
+    mid: [
+      { stem:"“所有实数的平方非负”的真假？", options:["真","假","不确定","不是命题"], answer:0, topic:"全称命题真假" },
+      { stem:"“∃x∈R, x²<0”的否定是？", options:["∃x,x²≥0","∀x,x²<0","∀x,x²≥0","∀x,x²>0"], answer:2, topic:"存在命题的否定" },
+      { stem:"“x>3”是“x>1”的？", options:["充分不必要条件","必要不充分条件","充要条件","既不充分也不必要"], answer:0, topic:"充分必要条件判断" }
+    ],
+    hard: [
+      { stem:"若“∀x∈R, x²+2x+m>0”为真命题，则 m 的取值范围？", options:["m>1","m≥1","m>0","m<1"], answer:0, topic:"含参全称命题(Δ<0)" },
+      { stem:"“∀x, |x|+x²≥0”的否定是？", options:["∃x,|x|+x²<0","∀x,|x|+x²<0","∃x,|x|+x²≤0","∀x,|x|+x²>0"], answer:0, topic:"全称命题的否定" },
+      { stem:"若“x>a”是“x>2”的充分不必要条件，则 a 的取值范围？", options:["a≥2","a>2","a≤2","a<2"], answer:1, topic:"充分条件与参数范围" }
+    ]
+  }
+};
+const STORAGE_KEY = "math_wrong_book";
+function renderQuestions(chapter, diff, containerId){
+  const box = document.getElementById(containerId);
+  const list = QUESTIONS[chapter][diff];
+  box.innerHTML = list.map((q,i)=>{
+    const opts = q.options.map((o,j)=>`<button class="opt" onclick="answer(this,'${chapter}',${i},${j},'${diff}')">${String.fromCharCode(65+j)}. ${o}</button>`).join("");
+    return `<div class="q"><div class="stem">${i+1}. ${q.stem}</div>${opts}<div class="feedback"></div></div>`;
+  }).join("");
+}
+function answer(btn, chapter, qIndex, chosen, diff){
+  const qDiv = btn.closest(".q");
+  if(qDiv.dataset.done) return; qDiv.dataset.done = "1";
+  const q = QUESTIONS[chapter][diff][qIndex];
+  const opts = qDiv.querySelectorAll(".opt"); opts.forEach(o=>o.disabled=true);
+  const fb = qDiv.querySelector(".feedback"); opts[q.answer].classList.add("correct");
+  if(chosen === q.answer){ fb.textContent="✅ 回答正确！"; fb.className="feedback ok"; }
+  else {
+    btn.classList.add("wrong"); fb.textContent="❌ 答错了，已加入错题本。"; fb.className="feedback no";
+    saveWrong({ chapter, topic:q.topic, stem:q.stem,
+      correct:String.fromCharCode(65+q.answer)+". "+q.options[q.answer],
+      chosen:String.fromCharCode(65+chosen)+". "+q.options[chosen],
+      time:new Date().toLocaleString("zh-CN") });
+  }
+}
+function saveWrong(item){
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+  data.push(item); localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+function showPanel(id, btn){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".main-tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById(id).classList.add("active"); btn.classList.add("active");
+}
+function switchDiff(btn, id){
+  const card=btn.closest(".card");
+  card.querySelectorAll(".diff-tab").forEach(t=>t.classList.remove("active"));
+  card.querySelectorAll(".diff-content").forEach(c=>c.classList.remove("active"));
+  btn.classList.add("active"); document.getElementById(id).classList.add("active");
+}
+/* 支持从目录总页直接跳到指定章节答题：做题本.html#do=集合 */
+function applyHash(){
+  const h = decodeURIComponent(location.hash);
+  if(h.startsWith("#do=")){
+    const chapter = h.slice(4);
+    const map = { "集合":"p-jihe", "常用逻辑用语":"p-luoji" };  // 新增章节在此补一行
+    const panelId = map[chapter];
+    if(panelId){
+      const tab = [...document.querySelectorAll('.main-tab')]
+        .find(t => t.getAttribute('onclick') && t.getAttribute('onclick').includes(panelId));
+      if(tab) showPanel(panelId, tab);
+    }
+  }
+}
+window.addEventListener("hashchange", applyHash);
+/* 初始化 */
+renderQuestions("集合","easy","j-easy");
+renderQuestions("集合","mid","j-mid");
+renderQuestions("集合","hard","j-hard");
+renderQuestions("常用逻辑用语","easy","l-easy");
+renderQuestions("常用逻辑用语","mid","l-mid");
+renderQuestions("常用逻辑用语","hard","l-hard");
+applyHash();
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高中数学复习 · 目录总页</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+       background:linear-gradient(135deg,#e8f0fa 0%,#f0f4f8 100%);
+       color:#333;padding:30px 20px;min-height:100vh;}
+  .header{text-align:center;margin-bottom:20px;}
+  .header h1{color:#2c5f8a;font-size:30px;margin-bottom:8px;}
+  .header p{color:#7a8ba0;font-size:15px;}
+  .top-entry{text-align:center;margin-bottom:30px;}
+  .top-entry a{display:inline-block;background:#ec7a7a;color:#fff;text-decoration:none;
+       padding:12px 32px;border-radius:24px;font-size:16px;font-weight:bold;
+       box-shadow:0 4px 12px rgba(236,122,122,.35);transition:transform .2s;}
+  .top-entry a:hover{transform:translateY(-2px);}
+
+  .grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:1000px;margin:0 auto;}
+  .topic{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(0,0,0,.08);
+         padding:24px;width:300px;transition:transform .25s,box-shadow .25s;}
+  .topic:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.14);}
+  .topic .num{display:inline-block;background:#2c5f8a;color:#fff;font-size:13px;
+              padding:3px 12px;border-radius:12px;margin-bottom:12px;}
+  .topic h2{color:#2c5f8a;font-size:21px;margin-bottom:8px;}
+  .topic .kp{color:#8290a3;font-size:13px;line-height:1.7;margin-bottom:18px;min-height:44px;}
+  .topic .btns{display:flex;gap:8px;}
+  .topic a{flex:1;text-align:center;text-decoration:none;padding:10px 0;
+           border-radius:10px;font-size:13px;font-weight:bold;transition:opacity .2s;}
+  .topic a:hover{opacity:.85;}
+  .btn-video{background:#4a90d9;color:#fff;}
+  .btn-do{background:#f4b860;color:#fff;}
+  .btn-quiz{background:#7bc47f;color:#fff;}
+
+  .topic.soon{opacity:.55;}
+  .topic.soon .num{background:#b0bccb;}
+  .topic.soon h2{color:#8290a3;}
+  .topic.soon .btns a{background:#dfe5ec;color:#9aa7bb;cursor:default;pointer-events:none;}
+
+  .mascot{position:fixed;right:20px;bottom:20px;width:100px;z-index:99;
+          filter:drop-shadow(0 4px 10px rgba(0,0,0,.2));transition:transform .3s;}
+  .mascot:hover{transform:scale(1.08) rotate(-3deg);}
+  footer{text-align:center;color:#9aa7bb;margin-top:40px;font-size:13px;}
+  @media(max-width:600px){.mascot{width:70px;}}
+</style>
+</head>
+<body>
+  <div class="header">
+    <h1>📚 高中数学复习中心</h1>
+    <p>活力酷酷兔数学小课堂 · 选择一个专题开始复习</p>
+  </div>
+
+  <!-- 全局错题本入口（跨所有章节，看全部错题） -->
+  <div class="top-entry">
+    <a href="错题本.html">📕 打开我的错题本（全部章节）</a>
+  </div>
+
+  <div class="grid">
+
+    <!-- 专题一：集合 -->
+    <div class="topic">
+      <span class="num">专题一</span>
+      <h2>集合</h2>
+      <div class="kp">表示方法 · 基本关系 · 基本运算</div>
+      <div class="btns">
+        <a class="btn-video" href="集合复习/集合复习-视频版.html">🎬 视频</a>
+        <a class="btn-do" href="做题本.html#do=集合">✏️ 做题</a>
+        <a class="btn-quiz" href="错题本.html#集合">📒 错题本</a>
+      </div>
+    </div>
+
+    <!-- 专题二：常用逻辑用语 -->
+    <div class="topic">
+      <span class="num">专题二</span>
+      <h2>常用逻辑用语</h2>
+      <div class="kp">命题与量词 · 命题的否定 · 充分与必要条件</div>
+      <div class="btns">
+        <a class="btn-video" href="逻辑用语复习/逻辑用语复习-视频版.html">🎬 视频</a>
+        <a class="btn-do" href="做题本.html#do=常用逻辑用语">✏️ 做题</a>
+        <a class="btn-quiz" href="错题本.html#常用逻辑用语">📒 错题本</a>
+      </div>
+    </div>
+
+    <!-- 未完成专题占位（做好后：把 class="topic soon" 改成 class="topic"，填入链接） -->
+    <div class="topic soon">
+      <span class="num">专题三</span>
+      <h2>函数</h2>
+      <div class="kp">敬请期待…</div>
+      <div class="btns">
+        <a>🎬 视频</a>
+        <a>✏️ 做题</a>
+        <a>📒 错题本</a>
+      </div>
+    </div>
+
+  </div>
+
+  <img src="兔子.png" alt="活力酷酷兔" class="mascot">
+  <footer>活力酷酷兔数学小课堂 · 持续更新中</footer>
+</body>
+</html>

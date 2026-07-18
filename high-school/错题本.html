@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>高中数学 · 错题本</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"PingFang SC","Microsoft YaHei",sans-serif;
+    background:linear-gradient(135deg,#fdeef0,#f5f9ff); color:#333; line-height:1.7; padding:16px; }
+  .container { max-width:1000px; margin:0 auto; }
+  .header { text-align:center; background:linear-gradient(135deg,#ec7a7a,#f4a6a6);
+    color:#fff; padding:22px; border-radius:20px; margin-bottom:18px; box-shadow:0 6px 20px rgba(236,122,122,.3); }
+  .header h1 { font-size:24px; margin-bottom:4px; }
+  .header p { font-size:13px; opacity:.95; }
+  .go-do { text-align:center; margin-bottom:14px; }
+  .go-do a { color:#5a7fd6; font-weight:bold; text-decoration:none; font-size:13px; }
+  .card { background:#fff; border-radius:18px; padding:22px; margin-bottom:16px; box-shadow:0 4px 15px rgba(0,0,0,.06); }
+  .card h2 { color:#ec7a7a; font-size:19px; margin-bottom:6px; }
+  .card .desc { font-size:13px; color:#999; margin-bottom:14px; }
+  .wrong-tools { display:flex; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
+  .filter-bar { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .fbtn { border:none; border-radius:20px; padding:6px 16px; cursor:pointer; font-size:13px; font-weight:bold; background:#eef2fb; color:#7b8bad; }
+  .fbtn.active { background:#ec7a7a; color:#fff; }
+  .btn { border:none; border-radius:20px; padding:9px 18px; cursor:pointer; font-size:13px; font-weight:bold; color:#fff; }
+  .btn-preview { background:#7b9cf0; } .btn-download { background:#6ac48a; } .btn-clear { background:#ec7a7a; }
+  .wrong-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .wrong-table th, .wrong-table td { border:1px solid #e0e7f5; padding:8px 10px; text-align:left; }
+  .wrong-table th { background:#fdeef0; color:#ec7a7a; }
+  .group-title { color:#ec7a7a; font-size:15px; font-weight:bold; margin:18px 0 8px; padding-left:8px; border-left:4px solid #ec7a7a; }
+  .empty { text-align:center; color:#999; padding:30px; }
+  .modal-mask { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:200; padding:24px; overflow:auto; }
+  .modal-mask.show { display:block; }
+  .modal { max-width:800px; margin:0 auto; background:#fff; border-radius:16px; padding:26px; }
+  .modal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; border-bottom:2px solid #eef2fb; padding-bottom:12px; }
+  .modal-head h2 { color:#ec7a7a; font-size:20px; }
+  .modal-actions { display:flex; gap:8px; }
+  .review-card { border:1px solid #e0e7f5; border-left:5px solid #ec7a7a; border-radius:10px; padding:16px; margin-bottom:14px; }
+  .review-card .meta { font-size:12px; color:#999; margin-bottom:8px; }
+  .review-card .rstem { font-weight:bold; margin-bottom:8px; }
+  .review-card .line { font-size:14px; margin:3px 0; }
+  .review-card .c-ok { color:#2f7d4f; font-weight:bold; } .review-card .c-no { color:#c0392b; font-weight:bold; }
+  .footer { text-align:center; color:#999; font-size:13px; padding:16px; }
+  .mascot { position:fixed; right:12px; bottom:12px; width:100px; z-index:100; }
+  .mascot img { width:100%; border-radius:12px; }
+  @media print {
+    body * { visibility:hidden; }
+    #printArea, #printArea * { visibility:visible; }
+    #printArea { position:absolute; left:0; top:0; width:100%; }
+    .modal-actions, .mascot { display:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📕 高中数学 · 错题本</h1>
+    <p>自动收集做错的题 · 按章节知识点分组 · 可预览打印可下载</p>
+  </div>
+  <div class="go-do"><a href="做题本.html">← 回到做题本继续做题</a></div>
+  <div class="card">
+    <h2>我的错题</h2>
+    <div class="desc">这里只显示在做题本里做错的题目。推荐用"预览"专心复习，用"下载"做长期备份。</div>
+    <div class="wrong-tools">
+      <button class="btn btn-preview" onclick="openPreview()">🔍 预览 / 打印</button>
+      <button class="btn btn-download" onclick="downloadWrong()">⬇️ 下载备份(CSV)</button>
+      <button class="btn btn-clear" onclick="clearWrong()">🗑️ 清空错题本</button>
+    </div>
+    <div id="wrong-list"></div>
+  </div>
+  <div class="footer">答错别灰心，把错题重做一遍，就是进步最快的方式！</div>
+</div>
+
+<div class="modal-mask" id="previewMask">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>📕 错题复习卡</h2>
+      <div class="modal-actions">
+        <button class="btn btn-download" onclick="window.print()">🖨️ 打印</button>
+        <button class="btn btn-clear" onclick="closePreview()">✖ 关闭</button>
+      </div>
+    </div>
+    <div id="printArea"></div>
+  </div>
+</div>
+<div class="mascot"><img src="兔子.png" alt="酷酷兔"></div>
+
+<script>
+const STORAGE_KEY = "math_wrong_book";
+let CURRENT_FILTER = "";  // "" 表示全部
+
+function groupWrong(data){
+  const g = {};
+  data.forEach((w)=>{
+    if(!g[w.chapter]) g[w.chapter] = {};
+    if(!g[w.chapter][w.topic]) g[w.chapter][w.topic] = [];
+    g[w.chapter][w.topic].push(w);
+  });
+  return g;
+}
+function renderWrong(){
+  const all = JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+  const box = document.getElementById("wrong-list");
+
+  const chapters = [...new Set(all.map(w=>w.chapter))];
+  let filterBar = `<div class="filter-bar"><button class="fbtn ${CURRENT_FILTER===''?'active':''}" onclick="CURRENT_FILTER='';renderWrong()">全部</button>`;
+  chapters.forEach(c=>{
+    filterBar += `<button class="fbtn ${CURRENT_FILTER===c?'active':''}" onclick="CURRENT_FILTER='${c}';renderWrong()">${c}</button>`;
+  });
+  filterBar += `</div>`;
+
+  const data = CURRENT_FILTER ? all.filter(w=>w.chapter===CURRENT_FILTER) : all;
+  if(data.length===0){
+    box.innerHTML = (all.length?filterBar:"") +
+      `<div class="empty">🎉 ${CURRENT_FILTER?('“'+CURRENT_FILTER+'”暂无错题'):'目前没有错题，继续保持！'}</div>`;
+    return;
+  }
+  const g = groupWrong(data);
+  let html = filterBar;
+  Object.keys(g).forEach(chapter=>{
+    Object.keys(g[chapter]).forEach(topic=>{
+      const rows = g[chapter][topic];
+      html += `<div class="group-title">${chapter} · ${topic}（${rows.length}题）</div>`;
+      html += `<table class="wrong-table"><tr><th>题目</th><th>正确答案</th><th>孩子的选择</th><th>做错时间</th></tr>
+        ${rows.map(w=>`<tr><td>${w.stem}</td><td style="color:#2f7d4f">${w.correct}</td><td style="color:#c0392b">${w.chosen}</td><td>${w.time}</td></tr>`).join("")}</table>`;
+    });
+  });
+  box.innerHTML = html;
+}
+function openPreview(){
+  const all = JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+  const data = CURRENT_FILTER ? all.filter(w=>w.chapter===CURRENT_FILTER) : all;
+  const area = document.getElementById("printArea");
+  if(data.length===0){ area.innerHTML=`<div class="empty">🎉 目前没有错题，继续保持！</div>`; document.getElementById("previewMask").classList.add("show"); return; }
+  const g = groupWrong(data);
+  let html = "";
+  Object.keys(g).forEach(chapter=>{
+    Object.keys(g[chapter]).forEach(topic=>{
+      html += `<div class="group-title">${chapter} · ${topic}</div>`;
+      html += g[chapter][topic].map(w=>`<div class="review-card"><div class="meta">做错时间：${w.time}</div><div class="rstem">${w.stem}</div><div class="line">✅ 正确答案：<span class="c-ok">${w.correct}</span></div><div class="line">❌ 孩子的选择：<span class="c-no">${w.chosen}</span></div></div>`).join("");
+    });
+  });
+  area.innerHTML = html;
+  document.getElementById("previewMask").classList.add("show");
+}
+function closePreview(){ document.getElementById("previewMask").classList.remove("show"); }
+function downloadWrong(){
+  const data = JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+  if(data.length===0){ alert("错题本是空的，暂无可下载内容。"); return; }
+  const sorted = [...data].sort((a,b)=> a.chapter.localeCompare(b.chapter,"zh") || a.topic.localeCompare(b.topic,"zh"));
+  let csv="\uFEFF序号,章节,知识点,题目,正确答案,孩子的选择,做错时间\n";
+  sorted.forEach((w,i)=>{ csv+=[i+1,w.chapter,w.topic,w.stem,w.correct,w.chosen,w.time].map(x=>`"${String(x).replace(/"/g,'""')}"`).join(",")+"\n"; });
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="错题本_"+new Date().toLocaleDateString("zh-CN").replace(/\//g,"-")+".csv"; a.click();
+}
+function clearWrong(){ if(confirm("确定要清空错题本吗？建议先下载或预览打印备份。")){ localStorage.removeItem(STORAGE_KEY); CURRENT_FILTER=""; renderWrong(); } }
+/* 支持从目录总页跳转并预筛选章节：错题本.html#集合 */
+function applyHash(){
+  const h = decodeURIComponent(location.hash);
+  if(h && h.length>1){ CURRENT_FILTER = h.slice(1); }
+  renderWrong();
+}
+window.addEventListener("hashchange", applyHash);
+applyHash();
+</script>
+</body>
+</html>
