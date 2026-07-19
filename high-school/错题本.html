@@ -253,11 +253,14 @@
     URL.revokeObjectURL(a.href);
   }
 
-  function applyHash() {
-    const h = decodeURIComponent(location.hash.replace('#', '')).trim();
-    if (h) currentFilter = h;
-    renderAll();
-  }
+ function applyHash() {
+   // 优先读 ?ch=，兼容旧的 #章节名
+   const p = new URLSearchParams(location.search).get("ch");
+   const h = p || decodeURIComponent(location.hash.replace('#','')).trim();
+   if (h) currentFilter = h;
+   renderAll();
+ }
+
 
   window.addEventListener('hashchange', applyHash);
   applyHash();
