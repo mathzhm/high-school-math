@@ -175,12 +175,16 @@ function switchDiff(ci, diff, btn){
 
 /* 支持从目录总页跳转：做题本.html#do=章节名 */
 function applyHash(){
-  const h = decodeURIComponent(location.hash);
+  // 优先读 ?ch=，兼容旧的 #do=
+  const p = new URLSearchParams(location.search).get("ch");
+  let name = p || "";
+  if(!name && location.hash.startsWith("#do=")){
+    name = decodeURIComponent(location.hash.slice(4));
+  }
   let idx = 0;
-  if(h.startsWith("#do=")){
-    const name = h.slice(4);
-    const found = CHAPTERS.findIndex(c=>c.name===name);
-    if(found>-1) idx = found;
+  if(name){
+    const found = CHAPTERS.findIndex(c => c.name === name);
+    if(found > -1) idx = found;
   }
   showPanel(idx);
 }
