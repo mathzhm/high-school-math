@@ -20,12 +20,14 @@
 
   .grid{display:flex;flex-wrap:wrap;gap:24px;justify-content:center;max-width:1000px;margin:0 auto;}
   .topic{background:#fff;border-radius:18px;box-shadow:0 6px 20px rgba(0,0,0,.08);
-         padding:24px;width:300px;transition:transform .25s,box-shadow .25s;}
+         padding:24px;width:300px;transition:transform .25s,box-shadow .25s;
+         display:flex;flex-direction:column;}
   .topic:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.14);}
-  .topic .num{display:inline-block;background:#2c5f8a;color:#fff;font-size:13px;
-              padding:3px 12px;border-radius:12px;margin-bottom:12px;}
+  .topic .num{display:inline-block;align-self:flex-start;background:#2c5f8a;color:#fff;
+              font-size:13px;padding:3px 12px;border-radius:12px;margin-bottom:12px;}
   .topic h2{color:#2c5f8a;font-size:21px;margin-bottom:8px;}
-  .topic .kp{color:#8290a3;font-size:13px;line-height:1.7;margin-bottom:18px;min-height:44px;}
+  .topic .kp{color:#8290a3;font-size:13px;line-height:1.7;margin-bottom:18px;
+             min-height:44px;flex:1;}
   .topic .btns{display:flex;gap:8px;}
   .topic a{flex:1;text-align:center;text-decoration:none;padding:10px 0;
            border-radius:10px;font-size:13px;font-weight:bold;transition:opacity .2s;}
@@ -34,15 +36,11 @@
   .btn-do{background:#f4b860;color:#fff;}
   .btn-quiz{background:#7bc47f;color:#fff;}
 
-  .topic.soon{opacity:.55;}
-  .topic.soon .num{background:#b0bccb;}
-  .topic.soon h2{color:#8290a3;}
-  .topic.soon .btns a{background:#dfe5ec;color:#9aa7bb;cursor:default;pointer-events:none;}
-
   .mascot{position:fixed;right:20px;bottom:20px;width:100px;z-index:99;
           filter:drop-shadow(0 4px 10px rgba(0,0,0,.2));transition:transform .3s;}
   .mascot:hover{transform:scale(1.08) rotate(-3deg);}
   footer{text-align:center;color:#9aa7bb;margin-top:40px;font-size:13px;}
+  .empty{text-align:center;color:#9aa7bb;width:100%;padding:40px 0;font-size:15px;}
   @media(max-width:600px){.mascot{width:70px;}}
 </style>
 </head>
@@ -57,47 +55,55 @@
     <a href="错题本.html">📕 打开我的错题本（全部章节）</a>
   </div>
 
-  <div class="grid">
-
-    <!-- 专题一：集合 -->
-    <div class="topic">
-      <span class="num">专题一</span>
-      <h2>集合</h2>
-      <div class="kp">表示方法 · 基本关系 · 基本运算</div>
-      <div class="btns">
-        <a class="btn-video" href="集合复习/集合复习-视频版.html">🎬 视频</a>
-        <a class="btn-do" href="做题本.html#do=集合">✏️ 做题</a>
-        <a class="btn-quiz" href="错题本.html#集合">📒 错题本</a>
-      </div>
-    </div>
-
-    <!-- 专题二：常用逻辑用语 -->
-    <div class="topic">
-      <span class="num">专题二</span>
-      <h2>常用逻辑用语</h2>
-      <div class="kp">命题与量词 · 命题的否定 · 充分与必要条件</div>
-      <div class="btns">
-        <a class="btn-video" href="逻辑用语复习/逻辑用语复习-视频版.html">🎬 视频</a>
-        <a class="btn-do" href="做题本.html#do=常用逻辑用语">✏️ 做题</a>
-        <a class="btn-quiz" href="错题本.html#常用逻辑用语">📒 错题本</a>
-      </div>
-    </div>
-
-    <!-- 未完成专题占位（做好后：把 class="topic soon" 改成 class="topic"，填入链接） -->
-    <div class="topic soon">
-      <span class="num">专题三</span>
-      <h2>函数</h2>
-      <div class="kp">敬请期待…</div>
-      <div class="btns">
-        <a>🎬 视频</a>
-        <a>✏️ 做题</a>
-        <a>📒 错题本</a>
-      </div>
-    </div>
-
-  </div>
+  <!-- 卡片区：由 chapters.js 自动生成，无需手动维护 -->
+  <div class="grid" id="grid"></div>
 
   <img src="兔子.png" alt="活力酷酷兔" class="mascot">
   <footer>活力酷酷兔数学小课堂 · 持续更新中</footer>
+
+  <!-- 唯一数据源 -->
+  <script src="chapters.js"></script>
+  <script>
+    // 中文数字，用于「专题一 / 专题二 …」标签
+    const CN = ["一","二","三","四","五","六","七","八","九","十",
+                "十一","十二","十三","十四","十五","十六","十七","十八","十九","二十"];
+
+   // HTML 转义，防止章节名里的 < > & 破坏页面
+    const esc = s => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+
+    function render(){
+      const grid = document.getElementById("grid");
+
+      // 容错：chapters.js 未加载或为空
+      if (typeof CHAPTERS === "undefined" || !Array.isArray(CHAPTERS) || CHAPTERS.length === 0){
+        grid.innerHTML = '<div class="empty">暂无章节数据，请检查 chapters.js 是否正确加载。</div>';
+        return;
+      }
+
+      grid.innerHTML = CHAPTERS.map((ch, i) => {
+        const numLabel = "专题" + (CN[i] || (i + 1));
+        // 简介优先用 desc；没有 desc 则自动拼接知识点名
+        const kp = ch.desc && ch.desc.trim()
+          ? ch.desc
+          : (ch.topics || []).map(t => t.name).join(" · ");
+        // 章节名作为网址参数，用 encodeURIComponent 处理中文，保证跳转可靠
+        const q = encodeURIComponent(ch.name);
+        return `
+          <div class="topic">
+            <span class="num">${numLabel}</span>
+            <h2>${esc(ch.name)}</h2>
+            <div class="kp">${esc(kp)}</div>
+            <div class="btns">
+              <a class="btn-video" href="视频页.html?ch=${q}">🎬 视频</a>
+              <a class="btn-do"    href="做题本.html?ch=${q}">✏️ 做题</a>
+              <a class="btn-quiz"  href="错题本.html?ch=${q}">📒 错题本</a>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    render();
+  </script>
 </body>
 </html>

@@ -266,10 +266,10 @@ const CHAPTERS = [
             {stem:"“四边形是正方形”是“四边形是矩形”的？", options:["充分不必要","必要不充分","充要","都不是"], answer:0},
             {stem:"“a=0”是“ab=0”的？", options:["充分不必要","必要不充分","充要","都不是"], answer:0}
           ],
-            hard: [
-               {stem:"若“x<m”是“x<1”的必要不充分条件，m范围？", options:["m>1","m≥1","m<1","m≤1"], answer:0, note:"{x<1}⊊{x<m}需m>1"},
-               {stem:"“x²>1”是“x>1”的？", options:["充分不必要","必要不充分","充要","都不是"], answer:1, note:"x>1或x<−1"},
-               {stem:"设p:1≤x≤3，q:m≤x≤m+3，若p是q的充分条件，则m的取值范围是？", options:["0≤m≤1","m≤0","m≥1","1≤m≤3"], answer:0, note:"需[1,3]⊆[m,m+3]，即m≤1且m+3≥3，得0≤m≤1"}
+          hard: [
+            {stem:"若“x<m”是“x<1”的必要不充分条件，m范围？", options:["m>1","m≥1","m<1","m≤1"], answer:0, note:"{x<1}⊊{x<m}需m>1"},
+            {stem:"“x²>1”是“x>1”的？", options:["充分不必要","必要不充分","充要","都不是"], answer:1, note:"x>1或x<−1"},
+            {stem:"设p:1≤x≤3，q:m≤x≤m+3，若p是q的充分条件，则m的取值范围是？", options:["0≤m≤1","m≤0","m≥1","1≤m≤3"], answer:0, note:"需[1,3]⊆[m,m+3]，即m≤1且m+3≥3，得0≤m≤1"}
            ]
         }
       }
@@ -392,6 +392,167 @@ const CHAPTERS = [
             {stem:"方程组 x+y=1、x²+y²=25 的解集元素个数？", options:["0","1","2","无穷"], answer:2, note:"化为一元二次Δ>0，两组解"},
             {stem:"方程组 ax+y=1、x+y=2 无解，则a=？", options:["1","−1","0","2"], answer:0, note:"a=1时两直线平行"},
             {stem:"方程组 x−y=2、xy=3 的解集是？", options:["{(3,1)}","{(−1,−3)}","{(3,1),(−1,−3)}","∅"], answer:2, note:"x=y+2代入得y²+2y−3=0"}
+          ]
+        }
+      }
+    ]
+  }
+
+  ,
+  /* ================= 章节四：不等式 ================= */
+  {
+    name: "不等式",
+    desc: "涵盖：不等式及其性质、不等式的解集、一元二次不等式解法、均值不等式。",
+    topics: [
+      {
+        name: "不等式及其性质",
+        video: "videos/不等式及其性质.mp4",
+        quiz: {
+          easy: [
+            {stem:"若 a>b，则下列一定成立的是？", options:["a+2>b+2","a−2<b−2","2a<2b","−a>−b"], answer:0},
+            {stem:"若 a>b 且 c>0，则？", options:["ac<bc","ac>bc","ac=bc","无法确定"], answer:1},
+            {stem:"若 a>b，c<0，则？", options:["ac>bc","ac<bc","ac=bc","a+c>b+c不成立"], answer:1}
+          ],
+          mid: [
+            {stem:"若 a>b>0，则下列一定成立的是？", options:["1/a>1/b","1/a<1/b","a²<b²","−a>−b"], answer:1, note:"正数取倒数反向"},
+            {stem:"若 a>b，c>d，则一定有？", options:["a−c>b−d","a+c>b+d","ac>bd","a/c>b/d"], answer:1, note:"同向不等式可相加"},
+            {stem:"若 a>b>0，c>d>0，则？", options:["ac>bd","ac<bd","a−c>b−d","a/c>b/d"], answer:0, note:"同向正数不等式可相乘"}
+          ],
+          hard: [
+            {stem:"若 a<b<0，则下列成立的是？", options:["a²<b²","a²>b²","1/a<1/b","|a|<|b|"], answer:1, note:"两负数，绝对值大的平方大"},
+            {stem:"已知 −1<a<3，1<b<2，则 a−b 的范围是？", options:["(−3,2)","(−2,3)","(−3,1)","(−2,2)"], answer:0, note:"a−b∈(−1−2, 3−1)=(−3,2)"},
+            {stem:"已知 1<a<4，2<b<8，则 a/b 的范围是？", options:["(1/8,2)","(1/4,2)","(1/8,4)","(1/2,2)"], answer:0, note:"1/b∈(1/8,1/2)，a/b∈(1/8,2)"}
+          ]
+        },
+        practice: {
+          easy: [
+            {stem:"若 a>b，则 a−5 与 b−5 的大小关系是？", options:["a−5>b−5","a−5<b−5","a−5=b−5","不确定"], answer:0},
+            {stem:"若 a<b 且 c>0，则 ac 与 bc？", options:["ac>bc","ac<bc","ac=bc","不确定"], answer:1},
+            {stem:"不等式两边同乘一个负数，不等号方向？", options:["不变","改变","消失","变等号"], answer:1}
+          ],
+          mid: [
+            {stem:"若 a>b，则下列不一定成立的是？", options:["a+c>b+c","a−c>b−c","ac>bc","a>b−1"], answer:2, note:"c的正负未知"},
+            {stem:"若 0<a<b，则下列成立的是？", options:["a²>b²","1/a>1/b","√a>√b","a>b"], answer:1, note:"正数取倒数反向"},
+            {stem:"已知 2<a<5，1<b<3，则 a+b 的范围是？", options:["(3,8)","(1,5)","(3,5)","(2,8)"], answer:0, note:"a+b∈(2+1,5+3)"}
+          ],
+          hard: [
+            {stem:"若 a>b>0，则下列一定成立的是？", options:["a/b>1","b/a>1","a/b<1","a/b=1"], answer:0, note:"分子大于分母，且均正"},
+            {stem:"已知 −2<a<1，−1<b<4，则 a−b 的范围是？", options:["(−6,2)","(−3,5)","(−6,5)","(−3,2)"], answer:0, note:"−b∈(−4,1)，a−b∈(−6,2)"},
+            {stem:"若 a>b，1/a>1/b，则 a、b 的符号情况是？", options:["a>0>b","a>b>0","b>a>0","a<b<0"], answer:0, note:"异号时正数倒数大于负数倒数"}
+          ]
+        }
+      },
+      {
+        name: "不等式的解集",
+        video: "videos/不等式的解集.mp4",
+        quiz: {
+          easy: [
+            {stem:"不等式 x−3>0 的解集是？", options:["{x|x>3}","{x|x<3}","{x|x>−3}","{x|x=3}"], answer:0},
+            {stem:"不等式 2x<8 的解集是？", options:["{x|x<4}","{x|x>4}","{x|x<8}","{x|x>8}"], answer:0},
+            {stem:"不等式 −x>2 的解集是？", options:["{x|x>2}","{x|x<−2}","{x|x>−2}","{x|x<2}"], answer:1, note:"两边乘−1变向"}
+          ],
+          mid: [
+            {stem:"不等式 2x−1≥3 的解集是？", options:["{x|x≥2}","{x|x≤2}","{x|x≥1}","{x|x>2}"], answer:0},
+            {stem:"不等式组 x>1 且 x<4 的解集是？", options:["{x|1<x<4}","{x|x>1}","{x|x<4}","∅"], answer:0},
+            {stem:"不等式 −2x+1<5 的解集是？", options:["{x|x>−2}","{x|x<−2}","{x|x>2}","{x|x<2}"], answer:0, note:"−2x<4，x>−2"}
+          ],
+          hard: [
+            {stem:"不等式 |x|<3 的解集是？", options:["{x|x<3}","{x|−3<x<3}","{x|x>3}","{x|x<−3或x>3}"], answer:1},
+            {stem:"不等式 |x−1|>2 的解集是？", options:["{x|−1<x<3}","{x|x<−1或x>3}","{x|x>3}","{x|x<−1}"], answer:1, note:"x−1>2或x−1<−2"},
+            {stem:"不等式组 x+1>0 且 3−x>0 的解集是？", options:["{x|−1<x<3}","{x|x>−1}","{x|x<3}","∅"], answer:0, note:"x>−1且x<3"}
+          ]
+        },
+        practice: {
+          easy: [
+            {stem:"不等式 x+2>5 的解集是？", options:["{x|x>3}","{x|x<3}","{x|x>7}","{x|x>5}"], answer:0},
+            {stem:"不等式 3x≤9 的解集是？", options:["{x|x≤3}","{x|x≥3}","{x|x≤9}","{x|x<3}"], answer:0},
+            {stem:"不等式 −2x>6 的解集是？", options:["{x|x>−3}","{x|x<−3}","{x|x>3}","{x|x<3}"], answer:1, note:"除以−2变向"}
+          ],
+          mid: [
+            {stem:"不等式 3x+2<11 的解集是？", options:["{x|x<3}","{x|x>3}","{x|x<11}","{x|x<9}"], answer:0},
+            {stem:"不等式组 x≥0 且 x≤5 的解集是？", options:["{x|0≤x≤5}","{x|x≥0}","{x|x≤5}","∅"], answer:0},
+            {stem:"不等式 4−x≥1 的解集是？", options:["{x|x≤3}","{x|x≥3}","{x|x≤4}","{x|x<3}"], answer:0, note:"−x≥−3，x≤3"}
+          ],
+          hard: [
+            {stem:"不等式 |x|≥2 的解集是？", options:["{x|−2≤x≤2}","{x|x≤−2或x≥2}","{x|x≥2}","{x|x≤2}"], answer:1},
+            {stem:"不等式 |2x−1|<3 的解集是？", options:["{x|−1<x<2}","{x|x<2}","{x|x>−1}","{x|x<−1或x>2}"], answer:0, note:"−3<2x−1<3，−1<x<2"},
+            {stem:"不等式组 2x−1>0 且 x−3<0 的解集是？", options:["{x|1/2<x<3}","{x|x>1/2}","{x|x<3}","∅"], answer:0, note:"x>1/2且x<3"}
+          ]
+        }
+      },
+      {
+        name: "一元二次不等式的解法",
+        video: "videos/一元二次不等式的解法.mp4",
+        quiz: {
+          easy: [
+            {stem:"不等式 (x−1)(x−2)>0 的解集是？", options:["{x|x<1或x>2}","{x|1<x<2}","{x|x>2}","{x|x<1}"], answer:0},
+            {stem:"不等式 x²−4<0 的解集是？", options:["{x|−2<x<2}","{x|x<−2或x>2}","{x|x<2}","{x|x>−2}"], answer:0},
+            {stem:"不等式 x²>0 的解集是？", options:["R","{x|x≠0}","{x|x>0}","∅"], answer:1, note:"除x=0外均成立"}
+          ],
+          mid: [
+            {stem:"不等式 x²−5x+6≤0 的解集是？", options:["{x|2≤x≤3}","{x|x≤2或x≥3}","{x|x≤3}","{x|x≥2}"], answer:0, note:"根为2、3，开口向上取中间"},
+            {stem:"不等式 x²−3x>0 的解集是？", options:["{x|0<x<3}","{x|x<0或x>3}","{x|x>3}","{x|x<0}"], answer:1, note:"x(x−3)>0"},
+            {stem:"不等式 −x²+4x−3>0 的解集是？", options:["{x|1<x<3}","{x|x<1或x>3}","{x|x>3}","∅"], answer:0, note:"化为x²−4x+3<0，根1、3"}
+          ],
+          hard: [
+            {stem:"不等式 x²−2x+1>0 的解集是？", options:["R","{x|x≠1}","{x|x>1}","∅"], answer:1, note:"(x−1)²>0，除x=1外成立"},
+            {stem:"不等式 x²+x+1>0 的解集是？", options:["R","{x|x≠0}","∅","{x|x>0}"], answer:0, note:"Δ<0且开口向上，恒成立"},
+            {stem:"不等式 x²−2x−3≥0 的解集是？", options:["{x|−1≤x≤3}","{x|x≤−1或x≥3}","{x|x≥3}","{x|x≤−1}"], answer:1, note:"根−1、3，取两侧"}
+          ]
+        },
+        practice: {
+          easy: [
+            {stem:"不等式 (x+1)(x−3)<0 的解集是？", options:["{x|−1<x<3}","{x|x<−1或x>3}","{x|x>3}","{x|x<−1}"], answer:0},
+            {stem:"不等式 x²−9>0 的解集是？", options:["{x|x<−3或x>3}","{x|−3<x<3}","{x|x>3}","{x|x<3}"], answer:0},
+            {stem:"不等式 x²≤0 的解集是？", options:["{0}","∅","R","{x|x≥0}"], answer:0, note:"仅x=0满足"}
+          ],
+          mid: [
+            {stem:"不等式 x²−x−6<0 的解集是？", options:["{x|−2<x<3}","{x|x<−2或x>3}","{x|x<3}","{x|x>−2}"], answer:0, note:"根−2、3，取中间"},
+            {stem:"不等式 x²+2x≥0 的解集是？", options:["{x|x≤−2或x≥0}","{x|−2≤x≤0}","{x|x≥0}","R"], answer:0, note:"x(x+2)≥0"},
+            {stem:"不等式 2x²−3x−2>0 的解集是？", options:["{x|x<−1/2或x>2}","{x|−1/2<x<2}","{x|x>2}","{x|x<2}"], answer:0, note:"(2x+1)(x−2)>0"}
+          ],
+          hard: [
+            {stem:"不等式 −x²+2x−1≥0 的解集是？", options:["{1}","R","∅","{x|x≠1}"], answer:0, note:"−(x−1)²≥0仅x=1"},
+            {stem:"不等式 x²−4x+5>0 的解集是？", options:["R","∅","{x|x≠2}","{x|x>2}"], answer:0, note:"Δ<0，开口向上恒成立"},
+            {stem:"若不等式 x²+bx+c<0 的解集为 {x|1<x<4}，则 b+c=？", options:["−1","1","3","−5"], answer:0, note:"根1、4：b=−5,c=4,b+c=−1"}
+          ]
+        }
+      },
+      {
+        name: "均值不等式及其应用",
+        video: "videos/均值不等式及其应用.mp4",
+        quiz: {
+          easy: [
+            {stem:"均值不等式 a+b≥2√(ab) 成立的前提是？", options:["a、b为实数","a、b>0","a、b<0","a≠b"], answer:1},
+            {stem:"当 a>0 时，a+1/a 的最小值是？", options:["1","2","0","4"], answer:1, note:"a=1时取等"},
+            {stem:"a+b≥2√(ab) 中等号成立的条件是？", options:["a=b","a>b","a<b","ab=1"], answer:0}
+          ],
+          mid: [
+            {stem:"当 x>0 时，x+4/x 的最小值是？", options:["2","4","6","8"], answer:1, note:"2√(x·4/x)=4，x=2取等"},
+            {stem:"若 a>0，b>0 且 a+b=4，则 ab 的最大值是？", options:["2","4","8","16"], answer:1, note:"ab≤(a+b)²/4=4，a=b=2"},
+            {stem:"当 x>1 时，x+1/(x−1) 的最小值是？", options:["2","3","4","1"], answer:1, note:"(x−1)+1/(x−1)+1≥2+1=3"}
+          ],
+          hard: [
+            {stem:"若 x>0，y>0 且 x+y=1，则 1/x+1/y 的最小值是？", options:["2","4","6","8"], answer:1, note:"(1/x+1/y)(x+y)≥4"},
+            {stem:"若 a>0，b>0，且 2a+b=1，则 1/a+2/b 的最小值是？", options:["4","6","8","9"], answer:2, note:"(1/a+2/b)(2a+b)=4+b/a+4a/b≥8"},
+            {stem:"当 x>0 时，x/(x²+4) 的最大值是？", options:["1/2","1/4","1/8","4"], answer:1, note:"x+4/x≥4，故x/(x²+4)=1/(x+4/x)≤1/4"}
+          ]
+        },
+        practice: {
+          easy: [
+            {stem:"均值不等式中，√(ab) 称为 a、b 的？", options:["算术平均数","几何平均数","调和平均数","平方平均数"], answer:1},
+            {stem:"当 a>0 时，a+9/a 取最小值时 a=？", options:["1","3","9","6"], answer:1, note:"a=√9=3"},
+            {stem:"(a+b)/2 与 √(ab)（a,b>0）的大小关系是？", options:["前者≥后者","前者≤后者","相等","不确定"], answer:0}
+          ],
+          mid: [
+            {stem:"当 x>0 时，x+16/x 的最小值是？", options:["4","8","16","2"], answer:1, note:"2√16=8，x=4取等"},
+            {stem:"若 a、b>0 且 ab=9，则 a+b 的最小值是？", options:["3","6","9","18"], answer:1, note:"a+b≥2√9=6"},
+            {stem:"当 x>2 时，x+4/(x−2) 的最小值是？", options:["4","6","8","2"], answer:1, note:"(x−2)+4/(x−2)+2≥4+2=6"}
+          ],
+          hard: [
+            {stem:"若 x>0，y>0 且 xy=4，则 x+4y 的最小值是？", options:["4","8","16","2"], answer:1, note:"x+4y≥2√(4xy)=2√16=8"},
+            {stem:"若 a>0，b>0，a+2b=2，则 ab 的最大值是？", options:["1/2","1","2","1/4"], answer:0, note:"2=a+2b≥2√(2ab)，ab≤1/2"},
+            {stem:"若 x>0，y>0 且 1/x+9/y=1，则 x+y 的最小值是？", options:["12","16","10","8"], answer:1, note:"(x+y)(1/x+9/y)=10+y/x+9x/y≥16"}
           ]
         }
       }
