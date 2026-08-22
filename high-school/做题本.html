@@ -35,9 +35,14 @@
   .q .stem { font-weight:bold; margin-bottom:10px; }
   .opt { display:block; width:100%; text-align:left; background:#fff; border:1.5px solid #e0e7f5; border-radius:10px; padding:9px 14px; margin-bottom:8px; cursor:pointer; font-size:14px; transition:all .15s; }
   .opt:hover { border-color:#7b9cf0; }
+  .opt.selected { background:#eef4ff; border-color:#7b9cf0; color:#3a5bbf; font-weight:bold; }
   .opt.correct { background:#eafaf0; border-color:#6ac48a; color:#2f7d4f; font-weight:bold; }
   .opt.wrong   { background:#fdeaea; border-color:#ec7a7a; color:#c0392b; font-weight:bold; }
   .opt:disabled { cursor:default; }
+  .confirm-btn { display:inline-block; margin-top:4px; background:#7b9cf0; color:#fff;
+    border:none; border-radius:10px; padding:8px 22px; font-size:14px; cursor:pointer; transition:all .2s; }
+  .confirm-btn:hover { background:#6588e8; }
+  .confirm-btn:disabled { background:#c3ccdd; cursor:default; }
   .feedback { font-size:13px; margin-top:6px; font-weight:bold; }
   .feedback.ok { color:#2f7d4f; } .feedback.no { color:#c0392b; }
   .err { text-align:center; color:#c0392b; padding:40px; }
@@ -50,7 +55,7 @@
 <div class="container">
   <div class="header">
     <h1>🐰 高中数学 · 做题本</h1>
-    <p>选章节 · 做选择题 · 自动判分 · 答错自动进错题本</p>
+    <p>选章节 · 做选择题 · 确认提交 · 答错自动进错题本</p>
   </div>
   <div class="links">
     <a href="目录总页.html">← 返回目录</a>
@@ -98,7 +103,7 @@ function buildPanels(){
     <div class="panel" id="panel-${ci}">
       <div class="card">
         <h2>${esc(c.name)}</h2>
-        <div class="desc">${esc(c.desc||"")} 点选项即可自动判分，答错自动进错题本。</div>
+        <div class="desc">${esc(c.desc||"")} 选好答案后点「确定」提交，答错自动进错题本。</div>
         <div class="diff-tabs">
           ${DIFFS.map((d,di)=>`<button class="diff-tab ${d[2]} ${di===0?'active':''}" onclick="switchDiff(${ci},'${d[0]}',this)">${d[1]}</button>`).join("")}
         </div>
@@ -120,34 +125,64 @@ function renderDiff(ci, diff){
     list.forEach((q, qi)=>{
       globalIdx++;
       const opts = q.options.map((o,j)=>
-        `<button class="opt" onclick="answer(this,${ci},${ti},'${diff}',${qi},${j})">${LETTER[j]}. ${esc(o)}</button>`
+        `<button class="opt" onclick="pick(this,${j})">${LETTER[j]}. ${esc(o)}</button>`
       ).join("");
-      html += `<div class="q"><div class="stem">${globalIdx}. ${esc(q.stem)}
+      html += `<div class="q" data-ci="${ci}" data-ti="${ti}" data-diff="${diff}" data-qi="${qi}">
+        <div class="stem">${globalIdx}. ${esc(q.stem)}
         <span style="font-weight:normal;color:#a9b4c7;font-size:12px;">〔${esc(topic.name)}〕</span></div>
-        ${opts}<div class="feedback"></div></div>`;
+        ${opts}
+        <button class="confirm-btn" onclick="submit(this)" disabled>确定</button>
+        <div class="feedback"></div></div>`;
     });
   });
   container.innerHTML = html || `<div class="q">该难度暂无练习题。</div>`;
 }
 
-function answer(btn, ci, ti, diff, qi, chosen){
+/* 第一步：只选中，不判分。确定前可自由改选 */
+function pick(btn, chosen){
   const qDiv = btn.closest(".q");
-  if(qDiv.dataset.done) return; qDiv.dataset.done = "1";
+  if(qDiv.dataset.done) return;              // 已提交则锁定，不允许再改
+  qDiv.querySelectorAll(".opt").forEach(o=>o.classList.remove("selected"));
+  btn.classList.add("selected");
+  qDiv.dataset.chosen = chosen;              // 暂存当前选择
+  qDiv.querySelector(".confirm-btn").disabled = false;   // 选了才能点确定
+}
+
+/* 第二步：点确定才判分、显示解析、写入错题本 */
+function submit(confirmBtn){
+  const qDiv = confirmBtn.closest(".q");
+  if(qDiv.dataset.done) return;
+  if(qDiv.dataset.chosen === undefined) return;   // 没选就点，忽略
+  qDiv.dataset.done = "1";
+
+  const ci   = +qDiv.dataset.ci;
+  const ti   = +qDiv.dataset.ti;
+  const diff = qDiv.dataset.diff;
+  const qi   = +qDiv.dataset.qi;
+  const chosen = +qDiv.dataset.chosen;
   const q = CHAPTERS[ci].topics[ti].practice[diff][qi];
-  const opts = qDiv.querySelectorAll(".opt"); opts.forEach(o=>o.disabled=true);
+
+  const opts = qDiv.querySelectorAll(".opt");
+  opts.forEach(o=>{ o.disabled = true; o.classList.remove("selected"); });
+  confirmBtn.disabled = true;
+  confirmBtn.textContent = "已提交";
+
   const fb = qDiv.querySelector(".feedback");
   opts[q.answer].classList.add("correct");
-  if(chosen === q.answer){ fb.textContent="✅ 回答正确！"; fb.className="feedback ok"; }
-  else {
-    btn.classList.add("wrong"); fb.textContent="❌ 答错了，已加入错题本。"; fb.className="feedback no";
+
+  if(chosen === q.answer){
+    fb.textContent = "✅ 回答正确！"; fb.className = "feedback ok";
+  } else {
+    opts[chosen].classList.add("wrong");
+    fb.textContent = "❌ 答错了，已加入错题本。"; fb.className = "feedback no";
     saveWrong({
       id: "w_" + Date.now() + "_" + Math.random().toString(36).slice(2,7),
       chapter: CHAPTERS[ci].name,
       topic: CHAPTERS[ci].topics[ti].name,
       level: diff,
       stem: q.stem,
-      correct: LETTER[q.answer]+". "+q.options[q.answer],
-      chosen: LETTER[chosen]+". "+q.options[chosen],
+      correct: LETTER[q.answer] + ". " + q.options[q.answer],
+      chosen:  LETTER[chosen]  + ". " + q.options[chosen],
       time: new Date().toLocaleString("zh-CN")
     });
   }
